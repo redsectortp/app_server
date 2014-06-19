@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Table(name = "userentry")
 public class UserEntry implements Serializable {
 
-    private int id;
     private String username;
     private String password;
     private String email;
@@ -21,19 +20,11 @@ public class UserEntry implements Serializable {
         // this form used by Hibernate
     }
 
-    @Id
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     /**
      * @return the username
      */
-    @Column(name = "username")
+    @Id
+    @Column(name = "username", unique = true)
     public String getUsername() {
         return username;
     }

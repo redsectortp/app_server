@@ -1,6 +1,7 @@
 package com.whatnow.serverside.database;
 
 import com.eaio.uuid.UUID;
+import com.whatnow.serverside.area.ProcessingArea;
 import com.whatnow.serverside.login.UserSession;
 import java.util.List;
 import org.hibernate.Session;
@@ -18,6 +19,7 @@ public class FastData {
         Configuration configuration = new Configuration();
         configuration.configure("/hibernate-fastdata.cfg.xml");
         configuration.addAnnotatedClass(UserSession.class);
+        configuration.addAnnotatedClass(ProcessingArea.class);
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         session = sessionFactory.openSession();
@@ -32,11 +34,15 @@ public class FastData {
     }
 
     public void QuickFill() {
-        UserSession user = new UserSession(1, "Levi", new UUID());
+        UserSession user = new UserSession();
+        user.setName("lala1");
+        user.setToken(new UUID().toString());
         session.beginTransaction();
         session.save(user);
         session.getTransaction().commit();
-        user = new UserSession(2, "Levi2", new UUID());
+        user = new UserSession();
+        user.setName("lala2");
+        user.setToken(new UUID().toString());
         session.beginTransaction();
         session.save(user);
         session.getTransaction().commit();
@@ -47,11 +53,10 @@ public class FastData {
         session.beginTransaction();
         List result = session.createQuery("from UserSession").list();
         for (UserSession event : (List<UserSession>) result) {
+            a = a.concat(":");
             a = a.concat(event.getName());
             a = a.concat(":");
-            a = a.concat(String.valueOf(event.getId()));
-            a = a.concat(":");
-            a = a.concat(event.getToken().toString());
+            a = a.concat(event.getToken());
         }
         session.getTransaction().commit();
         session.close();
