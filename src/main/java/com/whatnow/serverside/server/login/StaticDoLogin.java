@@ -1,7 +1,6 @@
 package com.whatnow.serverside.server.login;
 
 import com.eaio.uuid.UUID;
-import com.google.common.base.Strings;
 import com.whatnow.serverside.database.FastData;
 import com.whatnow.serverside.database.LongData;
 import com.whatnow.serverside.login.UserEntry;
@@ -12,6 +11,8 @@ import javax.security.auth.login.FailedLoginException;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,8 +20,12 @@ import org.hibernate.criterion.Restrictions;
  */
 public class StaticDoLogin {
 
+    static final Logger logger = LoggerFactory.getLogger(StaticDoLogin.class);
+
     public static String DoLogin(BasicAuthenticationPair basicPair) throws
             FailedLoginException {
+        logger.info("Starting do_login procedure for ".
+                concat(basicPair.getUsername()));
         String localUuid = "";
 
         LongData longAccess = new LongData();
@@ -31,13 +36,16 @@ public class StaticDoLogin {
 
         Criteria criteria = longSession.createCriteria(UserEntry.class);
         criteria.add(Restrictions.eq("username", basicPair.getUsername()));
-
+        logger.info("Accesses, sessions and criteria created");
         try {
+            logger.info("Entered try");
             List<UserEntry> entryList = criteria.list();
             for (UserEntry entry : entryList) {
+                logger.info("Entered list of results from criteria,"
+                        + " should be 1 result");
                 localUuid = new UUID().toString();
                 UserSession localUserSession = new UserSession();
-                localUserSession.setName(basicPair.getUsername());
+                localUserSession.setName(entry.getUsername());
                 localUserSession.setToken(localUuid);
                 fastSession.beginTransaction();
                 fastSession.save(localUserSession);
@@ -45,7 +53,10 @@ public class StaticDoLogin {
                 fastSession.close();
                 longSession.close();
             }
+            logger.info("Criteria list for block just finalized");
         } catch (Exception ex) {
+            logger.error("FailedLoginException on the criteria try: "
+                    .concat(ex.toString()));
             throw new FailedLoginException();
         }
 
