@@ -1,4 +1,4 @@
-package com.whatnow.serverside.login;
+package org.rsrevival.scout.login;
 
 import com.eaio.uuid.UUID;
 import java.io.Serializable;

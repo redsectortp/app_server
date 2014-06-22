@@ -1,11 +1,10 @@
-package com.whatnow.serverside.server.login;
+package org.rsrevival.scout.server.login;
 
 import com.eaio.uuid.UUID;
-import com.whatnow.serverside.database.FastData;
-import com.whatnow.serverside.database.LongData;
-import com.whatnow.serverside.login.UserEntry;
-import com.whatnow.serverside.login.UserSession;
-import com.whatnow.serverside.shared.login.BasicAuthenticationPair;
+import org.rsrevival.scout.database.FastData;
+import org.rsrevival.scout.database.LongData;
+import org.rsrevival.scout.login.UserEntry;
+import org.rsrevival.scout.login.UserSession;
 import java.util.List;
 import javax.security.auth.login.FailedLoginException;
 import org.hibernate.Criteria;
@@ -61,5 +60,27 @@ public class StaticDoLogin {
         }
 
         return localUuid;
+    }
+
+    public static Boolean DoLogout(UserSession localUserSession) {
+        Boolean result = false;
+        logger.info("Stating logout procedure for user: "
+                .concat(localUserSession.getName()));
+
+        FastData fastAccess = new FastData();
+        Session fastSession = fastAccess.GetNewSession();
+
+        logger.info("Access and session created");
+        try {
+            fastSession.beginTransaction();
+            fastSession.delete(localUserSession);
+            fastSession.getTransaction().commit();
+            fastSession.close();
+            result = true;
+        } catch (Exception ex) {
+            logger.error("Exception on the delete try: "
+                    .concat(ex.toString()));
+        }
+        return result;
     }
 }

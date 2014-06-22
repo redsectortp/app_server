@@ -1,4 +1,4 @@
-package com.whatnow.serverside.entrypoint;
+package org.rsrevival.scout.entrypoint;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;

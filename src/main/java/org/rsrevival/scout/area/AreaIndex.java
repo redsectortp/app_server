@@ -1,4 +1,4 @@
-package com.whatnow.serverside.area;
+package org.rsrevival.scout.area;
 
 import com.eaio.uuid.UUID;
 import java.io.Serializable;

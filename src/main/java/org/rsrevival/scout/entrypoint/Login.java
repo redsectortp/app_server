@@ -1,10 +1,10 @@
-package com.whatnow.serverside.entrypoint;
+package org.rsrevival.scout.entrypoint;
 
 import com.google.common.base.Strings;
-import com.whatnow.serverside.database.LongData;
-import com.whatnow.serverside.login.UserEntry;
-import com.whatnow.serverside.server.login.StaticDoLogin;
-import com.whatnow.serverside.shared.login.BasicAuthenticationPair;
+import org.rsrevival.scout.database.LongData;
+import org.rsrevival.scout.login.UserEntry;
+import org.rsrevival.scout.server.login.StaticDoLogin;
+import org.rsrevival.scout.server.login.BasicAuthenticationPair;
 import javax.security.auth.login.FailedLoginException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

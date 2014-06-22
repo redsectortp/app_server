@@ -1,4 +1,4 @@
-package com.whatnow.serverside.login;
+package org.rsrevival.scout.login;
 
 import java.io.Serializable;
 import javax.persistence.Column;

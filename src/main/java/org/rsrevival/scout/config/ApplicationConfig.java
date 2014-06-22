@@ -1,4 +1,4 @@
-package com.whatnow.serverside.config;
+package org.rsrevival.scout.config;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -18,8 +18,8 @@ public class ApplicationConfig extends Application {
     }
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(com.whatnow.serverside.entrypoint.General.class);
-        resources.add(com.whatnow.serverside.entrypoint.Login.class);
+        resources.add(org.rsrevival.scout.entrypoint.General.class);
+        resources.add(org.rsrevival.scout.entrypoint.Login.class);
     }
     
 }

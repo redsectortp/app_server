@@ -1,8 +1,8 @@
-package com.whatnow.serverside.database;
+package org.rsrevival.scout.database;
 
 import com.eaio.uuid.UUID;
-import com.whatnow.serverside.area.ProcessingArea;
-import com.whatnow.serverside.login.UserSession;
+import org.rsrevival.scout.area.ProcessingArea;
+import org.rsrevival.scout.login.UserSession;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

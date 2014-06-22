@@ -1,4 +1,4 @@
-package com.whatnow.serverside.shared.login;
+package org.rsrevival.scout.server.login;
 
 import java.io.Serializable;
 
