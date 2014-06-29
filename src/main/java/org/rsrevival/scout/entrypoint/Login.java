@@ -2,7 +2,7 @@ package org.rsrevival.scout.entrypoint;
 
 import com.google.common.base.Strings;
 import org.rsrevival.scout.database.LongData;
-import org.rsrevival.scout.login.UserEntry;
+import org.rsrevival.scout.database.login.UserEntry;
 import org.rsrevival.scout.server.login.StaticDoLogin;
 import org.rsrevival.scout.server.login.BasicAuthenticationPair;
 import javax.security.auth.login.FailedLoginException;

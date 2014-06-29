@@ -1,6 +1,6 @@
 package org.rsrevival.scout.database;
 
-import org.rsrevival.scout.login.UserEntry;
+import org.rsrevival.scout.database.login.UserEntry;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

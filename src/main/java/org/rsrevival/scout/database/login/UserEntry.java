@@ -1,4 +1,4 @@
-package org.rsrevival.scout.login;
+package org.rsrevival.scout.database.login;
 
 import com.eaio.uuid.UUID;
 import java.io.Serializable;

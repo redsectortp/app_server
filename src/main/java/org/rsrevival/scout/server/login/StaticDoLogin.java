@@ -1,10 +1,10 @@
 package org.rsrevival.scout.server.login;
 
 import com.eaio.uuid.UUID;
-import org.rsrevival.scout.database.FastData;
+import org.rsrevival.scout.database.SessionCache;
 import org.rsrevival.scout.database.LongData;
-import org.rsrevival.scout.login.UserEntry;
-import org.rsrevival.scout.login.UserSession;
+import org.rsrevival.scout.database.login.UserEntry;
+import org.rsrevival.scout.database.login.UserSession;
 import java.util.List;
 import javax.security.auth.login.FailedLoginException;
 import org.hibernate.Criteria;
@@ -30,8 +30,7 @@ public class StaticDoLogin {
         LongData longAccess = new LongData();
         Session longSession = longAccess.GetNewSession();
 
-        FastData fastAccess = new FastData();
-        Session fastSession = fastAccess.GetNewSession();
+        SessionCache fastAccess = new SessionCache();
 
         Criteria criteria = longSession.createCriteria(UserEntry.class);
         criteria.add(Restrictions.eq("username", basicPair.getUsername()));
@@ -46,10 +45,7 @@ public class StaticDoLogin {
                 UserSession localUserSession = new UserSession();
                 localUserSession.setName(entry.getUsername());
                 localUserSession.setToken(localUuid);
-                fastSession.beginTransaction();
-                fastSession.save(localUserSession);
-                fastSession.getTransaction().commit();
-                fastSession.close();
+                fastAccess.SaveSession(localUserSession);
                 longSession.close();
             }
             logger.info("Criteria list for block just finalized");
@@ -58,7 +54,9 @@ public class StaticDoLogin {
                     .concat(ex.toString()));
             throw new FailedLoginException();
         }
-
+        fastAccess = null;
+        longSession = null;
+        localUuid = null;
         return localUuid;
     }
 
@@ -67,15 +65,11 @@ public class StaticDoLogin {
         logger.info("Stating logout procedure for user: "
                 .concat(localUserSession.getName()));
 
-        FastData fastAccess = new FastData();
-        Session fastSession = fastAccess.GetNewSession();
-
+        SessionCache fastSession = new SessionCache();
+        
         logger.info("Access and session created");
         try {
-            fastSession.beginTransaction();
-            fastSession.delete(localUserSession);
-            fastSession.getTransaction().commit();
-            fastSession.close();
+            fastSession.RemoveSession(localUserSession);
             result = true;
         } catch (Exception ex) {
             logger.error("Exception on the delete try: "
